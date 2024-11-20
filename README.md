@@ -1,4 +1,6 @@
-# tp2_conception
+[![.NET Core](https://github.com/joelrichard1/14E-TP3/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/joelrichard1/14E-TP3/actions/workflows/dotnet.yml)
+
+# TP3_Conception
 # Nom des membres d'équipe:
 Joël Richard, 
 Paula Mara Dantas B. Cavalcante, 
