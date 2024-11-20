@@ -32,7 +32,7 @@ jobs:
       run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish
 
     - name: List publish directory
-      run: ls -la ./publish
+      run: Get-ChildItem -Path ./publish
 
     - name: Create Release
       id: create_release
