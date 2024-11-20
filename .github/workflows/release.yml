@@ -1,13 +1,13 @@
-name: Build, Tag, and Release
-
-permissions:
-  contents: write
+name: Build, Tag and Release
 
 on:
   push:
+    tags:
+      - 'TP3-V*'
+  pull_request:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   build:
@@ -31,53 +31,29 @@ jobs:
     - name: Publish
       run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish
 
-    - name: Get latest tag
-      id: get_latest_tag
-      run: |
-        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-        echo "latest_tag=$latest_tag" >> $GITHUB_ENV
-
-    - name: Increment version
-      id: increment_version
-      run: |
-        latest_tag=${{ env.latest_tag }}
-        if [[ $latest_tag =~ ^TP3-V([0-9]+)$ ]]; then
-          version=${BASH_REMATCH[1]}
-          new_version=$((version + 1))
-          new_tag="TP3-V$new_version"
-          echo "new_tag=$new_tag" >> $GITHUB_ENV
-        else
-          echo "Invalid tag format"
-          exit 1
-        fi
-
-    - name: Create new tag
-      run: |
-        new_tag=${{ env.new_tag }}
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
-        git tag $new_tag
-        git push origin $new_tag
+    - name: List publish directory
+      run: ls -la ./publish
 
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
-      with:
-        tag_name: ${{ env.new_tag }}
-        release_name: Release ${{ env.new_tag }}
-        body: |
-          Release notes for ${{ env.new_tag }}
-        draft: false
-        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: TP3-V1
+        release_name: Release ${{ github.ref_name }}
+        body: |
+          Release notes for ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: Debug upload URL
+      run: echo ${{ steps.create_release.outputs.upload_url }}
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/Automate.exe
-        asset_name: Automate.exe
+        asset_path: ./publish/TP3-Automate.exe
+        asset_name: TP3-Automate.exe
         asset_content_type: application/octet-stream
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
