@@ -1,0 +1,47 @@
+﻿<Window x:Class="Automate.Views.EventsFormWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Automate"
+      xmlns:utils="clr-namespace:Automate.Utils"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+      xmlns:viewmodels="clr-namespace:Automate.ViewModels" 
+      d:DataContext="{d:DesignInstance Type=viewmodels:EventsFormViewModel}"
+      mc:Ignorable="d"
+      Title="Formulaire"
+      xmlns:ui="http://schemas.modernwpf.com/2019"
+      ui:WindowHelper.UseModernWindowStyle="True" Height="536" Width="802">
+    <Window.Resources>
+        <utils:BoolToColorConverter x:Key="BoolToColorConverter"/>
+        <utils:TypeAlertToStringConverter x:Key="TypeAlertToStringConverter"/>
+    </Window.Resources>
+    <Grid Margin="10,10,10,-6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Calendar x:Name="cal_Calendar" Grid.Column="0" VerticalAlignment="Top" Height="291" Margin="0,30,425,0" FontSize="10" Background="#FFADDD94" BorderBrush="#FFADDD94" OpacityMask="Black"
+                  SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"/>
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="444" Margin="101,29,0,0" Height="327">
+            <Label Content="Type de tâche" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center"/>
+            <ComboBox x:Name="cb_Type" Width="180" HorizontalAlignment="Center" 
+                      SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding TypesTache}"/>
+            <Label Content="Description" FontWeight="Bold" Margin="0,10,0,5" HorizontalAlignment="Center" />
+            <TextBox x:Name="tb_Description" Width="180" Height="100" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Alert:" FontWeight="Bold" Margin="0,10,0,5" HorizontalAlignment="Center" />
+            <ComboBox x:Name="cb_Alert" Width="180" HorizontalAlignment="Center" 
+                      SelectedItem="{Binding Alert, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding TypesAlert}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource TypeAlertToStringConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="Confirmer" Width="180" Height="36" Margin="0,20,0,0" Background="#FF2E5A00" Foreground="White" HorizontalAlignment="Center" Command="{Binding SubmitCommand}"/>
+        </StackPanel>
+        <TextBlock Text="{Binding ErrorMessages}" Foreground="Red" Visibility="{Binding HasErrors, ConverterParameter=Collapsed, Converter={StaticResource BoolToColorConverter}}" TextWrapping="WrapWithOverflow" Margin="220,356,95,29" Grid.Column="1"/>
+    </Grid>
+</Window>

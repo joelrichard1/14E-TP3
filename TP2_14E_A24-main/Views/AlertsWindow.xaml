@@ -1,0 +1,31 @@
+﻿<Window x:Class="Automate.Views.AlertsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Automate.Views"
+        xmlns:viewmodels="clr-namespace:Automate.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=viewmodels:AlertsViewModel}"
+        Title="AlertsWindow" Height="500" Width="400" ResizeMode="NoResize">
+    <Grid>
+        <Rectangle HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" Width="400" Stroke="Black" Stretch="UniformToFill" Fill="#FF2E5A00"/>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="400">
+            <TextBlock Text="Alertes" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
+        </Grid>
+        <ListView ItemsSource="{Binding Alerts}" Margin="10,60,10,10" d:ItemsSource="{d:SampleData ItemCount=5}" IsHitTestVisible="False" IsTextSearchEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="Tâche" DisplayMemberBinding="{Binding Description}" Width="250"/>
+                    <GridViewColumn Header="Échéance" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DaysRemaining, StringFormat='dans {0} jours'}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
