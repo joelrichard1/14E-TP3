@@ -47,6 +47,6 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/Automate.exe
-        asset_name: Automate.exe
+        asset_path: ./publish/TP3-Automate.exe
+        asset_name: TP3-Automate.exe
         asset_content_type: application/octet-stream
