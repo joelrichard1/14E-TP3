@@ -6,7 +6,7 @@
 	<PublishSingleFile>true</PublishSingleFile>
 	<SelfContained>true</SelfContained>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	<AssemblyName>Automate</AssemblyName>
+	<AssemblyName>TP3-Automate</AssemblyName>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
