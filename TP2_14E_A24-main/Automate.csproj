@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="Resources\automate.jpg" />
+    <None Remove="Views\automate.jpg" />
+    <None Remove="Views\fan.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +23,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\automate.jpg" />
+    <Resource Include="Views\automate.jpg" />
+    <Resource Include="Views\fan.png" />
   </ItemGroup>
 
 </Project>
