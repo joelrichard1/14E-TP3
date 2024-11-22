@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Automate.Utils;
+using Automate.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,7 @@ namespace Automate.Views
         public GreenHouseWindow()
         {
             InitializeComponent();
+            DataContext = new GreenHouseViewModel();
         }
     }
 }
