@@ -1,0 +1,31 @@
+name: NUnit Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
+
+    - name: Build
+      run: dotnet build --no-restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
