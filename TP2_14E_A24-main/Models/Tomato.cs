@@ -3,11 +3,14 @@ namespace Automate.Models
 {
     public class Tomato
     {
-        public double MinTemperature { get; set; } = 18.5;
-        public double MaxTemperature { get; set; } = 26.5;
-        public int MinLux { get; set; } = 25000;
-        public int MaxLux { get; set; } = 50000;
-        public double MinHumidity { get; set; } = 60.0;
-        public double MaxHumidity { get; set; } = 85.0;
+        public int DayMinTemperature { get; set; } = 20; 
+        public int DayMaxTemperature { get; set; } = 27; 
+        public int NightMinTemperature { get; set; } = 18; 
+        public int NightMaxTemperature { get; set; } = 22; 
+        public int MinHumidity { get; set; } = 60;
+        public int MaxHumidity { get; set; } = 85;
+        public int MinLux { get; set; } = 400;
+        public int MaxLux { get; set; } = 1200;
     }
+}
 }
