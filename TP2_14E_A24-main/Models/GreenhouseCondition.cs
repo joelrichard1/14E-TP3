@@ -13,13 +13,13 @@ namespace Automate.Models
         public DateTime DateTime { get; set; }
 
         [Name("Température (°C)")]
-        public int Température { get; set; }
+        public int Temperature { get; set; }
 
         [Name("Humidité (%)")]
-        public int Humidité { get; set; }
+        public int Humidity { get; set; }
 
         [Name("Luminosité (lux)")]
-        public int Luminosité { get; set; }
+        public int Luminosity { get; set; }
     }
 
 

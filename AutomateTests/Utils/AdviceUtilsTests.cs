@@ -7,15 +7,15 @@ namespace AutomateTests.Utils
     [TestFixture]
     public class AdviceUtilsTests
     {
-        private Tomato _tomato;
-        private SystemsStatuses _statuses;
+        private TomatoConditions _tomato;
+        private SystemStatus _statuses;
         private Advice _advice;
 
         [SetUp]
         public void Setup()
         {
-            _tomato = new Tomato();
-            _statuses = new SystemsStatuses();
+            _tomato = new TomatoConditions();
+            _statuses = new SystemStatus();
             _advice = new Advice();
         }
 

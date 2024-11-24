@@ -10,14 +10,11 @@ namespace Automate.Models
 {
     public abstract class ControlSystem
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
-        [BsonElement("Type")]
         public string Type { get; set; }
-        [BsonElement("Status")]
         public string Status { get; set; } = "Off";
+        protected bool IsDay(DateTime currentDate) => currentDate.Hour >= 6 && currentDate.Hour < 18;
 
-        public abstract void ControlSystemSerre(int temperature, int humidity, int lux, Tomato tomato, DateTime currentDate, SystemsStatuses statuses);    
+        public abstract void ControlSystemSerre(TomatoConditions tomato, DateTime currentDate, SystemStatus status);
     }
 }
 

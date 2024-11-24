@@ -1,7 +1,7 @@
 ﻿
 namespace Automate.Models
 {
-    public class Tomato
+    public class TomatoConditions
     {
         public int DayMinTemperature { get; set; } = 20; 
         public int DayMaxTemperature { get; set; } = 27; 
@@ -12,5 +12,4 @@ namespace Automate.Models
         public int MinLux { get; set; } = 400;
         public int MaxLux { get; set; } = 1200;
     }
-}
 }

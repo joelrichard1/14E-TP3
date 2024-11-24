@@ -17,6 +17,7 @@ namespace Automate.ViewModels
 {
     public class GreenHouseViewModel : INotifyPropertyChanged
     {
+        private GreenhouseCondition currentCondition;
         private List<GreenhouseCondition> _conditions;
         private Dictionary<string, string> status;
         private Dictionary<string, Brush> color;
@@ -27,6 +28,9 @@ namespace Automate.ViewModels
         private int currentIndex = 0;
         private bool isReading;
         private DispatcherTimer _timer;
+        private List<string> _advices;
+        private TomatoConditions TomatoConditions = new();
+        private SystemStatus systemStatus;
         public ICommand ToggleWindowCommand => new RelayCommand(() => ToggleStatus("Window"));
         public ICommand ToggleFanCommand => new RelayCommand(() => ToggleStatus("Fan"));
         public ICommand ToggleIrrigationCommand => new RelayCommand(() => ToggleStatus("Irrigation"));
@@ -55,10 +59,27 @@ namespace Automate.ViewModels
                 { "Heating", Brushes.Red },
                 { "Lights", Brushes.Red }
             };
+            // _conditions = new List<GreenhouseCondition>(); /*LoadConditionsFromCsv();*/
             _conditions = LoadConditionsFromCsv();
+
+            currentCondition = new GreenhouseCondition();
+            currentCondition.Temperature = 20;
+            currentCondition.Humidity = 50;
+            currentCondition.Luminosity = 600;
+            Temperature = currentCondition.Temperature.ToString();
+            Humidity = currentCondition.Humidity.ToString();
+            Luminosity = currentCondition.Luminosity.ToString();
             currentIndex = 0; 
             isReading = false; 
-            ButtonText = "Démarrer";
+            ButtonText = "Démarrer Simulation";
+            Advices = new List<string>();
+            systemStatus = new SystemStatus();
+            systemStatus.IsVentilationActive = false;
+            systemStatus.AreLightsActive = false;
+            systemStatus.AreSprinklersActive = false;
+            systemStatus.AreWindowsActive = false;
+            systemStatus.IsHeatingActive = false;
+            // TomatoConditions tomatoConditions = new();
             UpdateCurrentConditions();
 
         }
@@ -143,6 +164,14 @@ namespace Automate.ViewModels
             } 
         }
 
+        public List<string> Advices
+        {
+            get => _advices;
+            set { _advices = value; OnPropertyChanged(); OnPropertyChanged(nameof(AdvicesText)); }
+        }
+
+        public string AdvicesText => string.Join("\n", Advices);
+
         public string ButtonText 
         { 
             get => buttonText;
@@ -192,7 +221,7 @@ namespace Automate.ViewModels
         {
             _timer = new DispatcherTimer 
             { 
-                Interval = TimeSpan.FromSeconds(10) 
+                Interval = TimeSpan.FromSeconds(3) 
             }; 
             _timer.Tick += (sender, args) => UpdateCurrentConditions(); 
             _timer.Start(); 
@@ -204,7 +233,7 @@ namespace Automate.ViewModels
         { 
             _timer.Stop(); 
             isReading = false; 
-            ButtonText = "Démarrer"; 
+            ButtonText = "Démarrer Simulation"; 
         }
 
         private void UpdateCurrentConditions()
@@ -212,9 +241,10 @@ namespace Automate.ViewModels
             if (_conditions == null || _conditions.Count == 0) return; 
 
             var condition = _conditions[currentIndex]; 
-            Temperature = $"{condition.Température} °C"; 
-            Humidity = $"{condition.Humidité} %"; 
-            Luminosity = $"{condition.Luminosité} LUX"; 
+            Temperature = $"{condition.Temperature} °C"; 
+            Humidity = $"{condition.Humidity} %"; 
+            Luminosity = $"{condition.Luminosity} LUX";
+            Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, condition.Temperature, condition.Luminosity, condition.Humidity);
             currentIndex = (currentIndex + 1) % _conditions.Count; 
         }
 

@@ -26,11 +26,11 @@ namespace Automate.Models
                 };
             }
 
-            public override void ControlSystemSerre(int temperature, int humidity, int lux, Tomato tomato, DateTime currentDate, SystemsStatuses statuses)
+            public override void ControlSystemSerre(TomatoConditions tomato, DateTime currentDate, SystemStatus status)
             {
-                Status = (humidity < tomato.MinHumidity) ? "On" : "Off";
+                Status = (status.humidity < tomato.MinHumidity) ? "On" : "Off";
 
-                statuses.AreSprinklersActive = Status == "On";
+                status.AreSprinklersActive = Status == "On";
             }
         }
 
