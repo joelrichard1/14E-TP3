@@ -17,7 +17,11 @@ namespace Automate.ViewModels
 {
     public class GreenHouseViewModel : INotifyPropertyChanged
     {
-        private GreenhouseCondition currentCondition;
+        private const string StatusOpen = "Ouvert";
+        private const string StatusClosed = "Fermé";
+
+        private GreenhouseCondition _initialCondition;
+        private GreenhouseCondition _currentCondition;
         private List<GreenhouseCondition> _conditions;
         private Dictionary<string, string> status;
         private Dictionary<string, Brush> color;
@@ -62,15 +66,19 @@ namespace Automate.ViewModels
             // _conditions = new List<GreenhouseCondition>(); /*LoadConditionsFromCsv();*/
             _conditions = LoadConditionsFromCsv();
 
-            currentCondition = new GreenhouseCondition();
-            currentCondition.Temperature = 20;
-            currentCondition.Humidity = 50;
-            currentCondition.Luminosity = 600;
-            Temperature = currentCondition.Temperature.ToString();
-            Humidity = currentCondition.Humidity.ToString();
-            Luminosity = currentCondition.Luminosity.ToString();
-            currentIndex = 0; 
-            isReading = false; 
+            _initialCondition = new GreenhouseCondition();
+
+            _initialCondition.Temperature = 20;
+            _initialCondition.Humidity = 50;
+            _initialCondition.Luminosity = 600;
+
+            _currentCondition = _initialCondition;
+
+            Temperature = _currentCondition.Temperature.ToString();
+            Humidity = _currentCondition.Humidity.ToString();
+            Luminosity = _currentCondition.Luminosity.ToString();
+            currentIndex = 0;
+            isReading = false;
             ButtonText = "Démarrer Simulation";
             Advices = new List<string>();
             systemStatus = new SystemStatus();
@@ -79,89 +87,90 @@ namespace Automate.ViewModels
             systemStatus.AreSprinklersActive = false;
             systemStatus.AreWindowsActive = false;
             systemStatus.IsHeatingActive = false;
-            // TomatoConditions tomatoConditions = new();
-            UpdateCurrentConditions();
 
+            UpdateConditionLabels();
+            UpdateAdvices();
+        }
+
+        private string GetStatusText(bool isActive)
+        {
+            return isActive ? StatusOpen : StatusClosed;
         }
 
         public string WindowStatus
         {
-            get => status["Window"];
-            set { status["Window"] = value; OnPropertyChanged(); }
-        }
-
-        public Brush WindowColor
-        {
-            get => color["Window"];
-            set { color["Window"] = value; OnPropertyChanged(); }
+            get => GetStatusText(systemStatus.AreWindowsActive);
         }
 
         public string FanStatus
         {
-            get => status["Fan"];
-            set { status["Fan"] = value; OnPropertyChanged(); }
-        }
-
-        public Brush FanColor
-        {
-            get => color["Fan"];
-            set { color["Fan"] = value; OnPropertyChanged(); }
+            get => GetStatusText(systemStatus.IsVentilationActive);
         }
 
         public string IrrigationStatus
         {
-            get => status["Irrigation"];
-            set { status["Irrigation"] = value; OnPropertyChanged(); }
-        }
-
-        public Brush IrrigationColor
-        {
-            get => color["Irrigation"];
-            set { color["Irrigation"] = value; OnPropertyChanged(); }
+            get => GetStatusText(systemStatus.AreSprinklersActive);
         }
 
         public string HeatingStatus
         {
-            get => status["Heating"];
-            set { status["Heating"] = value; OnPropertyChanged(); }
-        }
-
-        public Brush HeatingColor
-        {
-            get => color["Heating"];
-            set { color["Heating"] = value; OnPropertyChanged(); }
+            get => GetStatusText(systemStatus.IsHeatingActive);
         }
 
         public string LightsStatus
         {
-            get => status["Lights"];
-            set { status["Lights"] = value; OnPropertyChanged(); }
+            get => GetStatusText(systemStatus.AreLightsActive);
+        }
+
+        private Brush GetStatusColor(bool isActive)
+        {
+            return isActive ? Brushes.Green : Brushes.Red;
+        }
+
+        public Brush WindowColor
+        {
+            get => GetStatusColor(systemStatus.AreWindowsActive);
+        }
+
+        public Brush FanColor
+        {
+            get => GetStatusColor(systemStatus.IsVentilationActive);
+        }
+
+        public Brush IrrigationColor
+        {
+            get => GetStatusColor(systemStatus.AreSprinklersActive);
+        }
+
+        public Brush HeatingColor
+        {
+            get => GetStatusColor(systemStatus.IsHeatingActive);
         }
 
         public Brush LightsColor
         {
-            get => color["Lights"];
-            set { color["Lights"] = value; OnPropertyChanged(); }
+            get => GetStatusColor(systemStatus.AreLightsActive);
         }
 
-        
-        public string Temperature 
+        public string Temperature
         {
             get => temperature;
-            set { temperature = value; OnPropertyChanged(); } 
+            set { temperature = value; OnPropertyChanged(); }
         }
 
-        public string Humidity 
-        { 
-            get => humidity; 
-            set { humidity = value; OnPropertyChanged(); } 
+        public string Humidity
+        {
+            get => humidity;
+            set { humidity = value; OnPropertyChanged(); }
         }
-         
-        public string Luminosity 
-        { 
-            get => luminosity; 
-            set { luminosity = value; OnPropertyChanged(); 
-            } 
+
+        public string Luminosity
+        {
+            get => luminosity;
+            set
+            {
+                luminosity = value; OnPropertyChanged();
+            }
         }
 
         public List<string> Advices
@@ -172,80 +181,113 @@ namespace Automate.ViewModels
 
         public string AdvicesText => string.Join("\n", Advices);
 
-        public string ButtonText 
-        { 
+        public string ButtonText
+        {
             get => buttonText;
-            set { buttonText = value; OnPropertyChanged(); } 
+            set { buttonText = value; OnPropertyChanged(); }
         }
 
-        private void ToggleStatus(string key)
+
+        private void ToggleStatus(string systemControl)
         {
-            if (status[key] == "Ouvert")
+            switch (systemControl)
             {
-                status[key] = "Fermé";
-                color[key] = Brushes.Red;
+                case "Window":
+                    systemStatus.AreWindowsActive = !systemStatus.AreWindowsActive;
+                    OnPropertyChanged(nameof(WindowStatus));
+                    OnPropertyChanged(nameof(WindowColor));
+                    break;
+                case "Fan":
+                    systemStatus.IsVentilationActive = !systemStatus.IsVentilationActive;
+                    OnPropertyChanged(nameof(FanStatus));
+                    OnPropertyChanged(nameof(FanColor));
+                    break;
+                case "Irrigation":
+                    systemStatus.AreSprinklersActive = !systemStatus.AreSprinklersActive;
+                    OnPropertyChanged(nameof(IrrigationStatus));
+                    OnPropertyChanged(nameof(IrrigationColor));
+                    break;
+                case "Heating":
+                    systemStatus.IsHeatingActive = !systemStatus.IsHeatingActive;
+                    OnPropertyChanged(nameof(HeatingStatus));
+                    OnPropertyChanged(nameof(HeatingColor));
+                    break;
+                case "Lights":
+                    systemStatus.AreLightsActive = !systemStatus.AreLightsActive;
+                    OnPropertyChanged(nameof(LightsStatus));
+                    OnPropertyChanged(nameof(LightsColor));
+                    break;
+            }
+
+            UpdateAdvices();
+        }
+
+
+        private void ToggleReading()
+        {
+            if (isReading)
+            {
+                StopReadingConditions();
             }
             else
             {
-                status[key] = "Ouvert";
-                color[key] = Brushes.Green;
+                StartReadingConditions();
             }
-            OnPropertyChanged($"{key}Status");
-            OnPropertyChanged($"{key}Color");
-        }
-
-        private void ToggleReading() 
-        { 
-            if (isReading) 
-            {
-                StopReadingConditions(); 
-            } 
-            else 
-            { 
-                StartReadingConditions(); 
-            } 
         }
 
         private List<GreenhouseCondition> LoadConditionsFromCsv()
         {
-            using (var reader = new StreamReader("TempData.csv")) 
+            using (var reader = new StreamReader("TempData.csv"))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                csv.Read(); 
-                csv.ReadHeader(); 
-                return csv.GetRecords<GreenhouseCondition>().ToList(); 
-            } 
+                csv.Read();
+                csv.ReadHeader();
+                return csv.GetRecords<GreenhouseCondition>().ToList();
+            }
         }
 
-        private void StartReadingConditions() 
+        private void StartReadingConditions()
         {
-            _timer = new DispatcherTimer 
-            { 
-                Interval = TimeSpan.FromSeconds(3) 
-            }; 
-            _timer.Tick += (sender, args) => UpdateCurrentConditions(); 
-            _timer.Start(); 
-            isReading = true; 
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3) //TODO: changer ça
+            };
+            _timer.Tick += (sender, args) => UpdateCurrentConditions();
+            _timer.Start();
+            isReading = true;
             ButtonText = "Arrêter";
         }
 
-        private void StopReadingConditions() 
-        { 
-            _timer.Stop(); 
-            isReading = false; 
-            ButtonText = "Démarrer Simulation"; 
+        private void StopReadingConditions()
+        {
+            _timer.Stop();
+            isReading = false;
+            ButtonText = "Démarrer Simulation";
+            _currentCondition = _initialCondition;
+            UpdateAdvices();
         }
 
         private void UpdateCurrentConditions()
         {
-            if (_conditions == null || _conditions.Count == 0) return; 
+            if (_conditions == null || _conditions.Count == 0) return;
 
-            var condition = _conditions[currentIndex]; 
-            Temperature = $"{condition.Temperature} °C"; 
-            Humidity = $"{condition.Humidity} %"; 
-            Luminosity = $"{condition.Luminosity} LUX";
-            Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, condition.Temperature, condition.Luminosity, condition.Humidity);
-            currentIndex = (currentIndex + 1) % _conditions.Count; 
+            _currentCondition = _conditions[currentIndex];
+            UpdateConditionLabels();
+            UpdateAdvices();
+            currentIndex = (currentIndex + 1) % _conditions.Count;
+        }
+
+        private void UpdateConditionLabels()
+        {
+            Temperature = $"{_currentCondition.Temperature} °C";
+            Humidity = $"{_currentCondition.Humidity} %";
+            Luminosity = $"{_currentCondition.Luminosity} LUX";
+        }
+
+        private void UpdateAdvices()
+        {
+            Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, _currentCondition.Temperature,
+                                                     _currentCondition.Luminosity, _currentCondition.Humidity);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

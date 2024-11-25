@@ -8,8 +8,5 @@ namespace Automate.Models
         public bool IsHeatingActive { get; set; }
         public bool AreLightsActive { get; set; }
         public bool IsVentilationActive { get; set; }
-        public int humidity { get; set; }
-        public int lux { get; set; }
-        public int temperature { get; set; }
     }
 }
