@@ -13,7 +13,7 @@ namespace AutomateTests.Tests
             var tomato = new TomatoConditions();
 
             // Assert
-            Assert.AreEqual(18.5, tomato.MinTemperature);
+            Assert.AreEqual(20, tomato.DayMinTemperature);
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace AutomateTests.Tests
             var tomato = new TomatoConditions();
 
             // Assert
-            Assert.AreEqual(26.5, tomato.MaxTemperature);
+            Assert.AreEqual(27, tomato.DayMaxTemperature);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace AutomateTests.Tests
             var tomato = new TomatoConditions();
 
             // Assert
-            Assert.AreEqual(25000, tomato.MinLux);
+            Assert.AreEqual(400, tomato.MinLux);
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace AutomateTests.Tests
             var tomato = new TomatoConditions();
 
             // Assert
-            Assert.AreEqual(50000, tomato.MaxLux);
+            Assert.AreEqual(1200, tomato.MaxLux);
         }
 
         [Test]

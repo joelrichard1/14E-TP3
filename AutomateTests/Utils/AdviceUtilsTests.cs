@@ -9,54 +9,54 @@ namespace AutomateTests.Utils
     {
         private TomatoConditions _tomato;
         private SystemStatus _statuses;
-        private Advice _advice;
+        private List<string> _advices;
 
         [SetUp]
         public void Setup()
         {
             _tomato = new TomatoConditions();
             _statuses = new SystemStatus();
-            _advice = new Advice();
+            _advices = new();
         }
 
         [Test]
         public void EvaluateConditions_TurnOnHeating_WhenTemperatureIsTooLow()
         {
             // Arrange
-            double currentTemperature = 17.0;
+            int currentTemperature = 17;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, currentTemperature, 30000, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, currentTemperature, 30000, 70);
 
             // Assert
-            Assert.Contains("Allumer le chauffage", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnHeatingOn, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOffHeating_WhenTemperatureIsTooHigh()
         {
             // Arrange
-            double currentTemperature = 28.0;
+            int currentTemperature = 28;
             _statuses.IsHeatingActive = true;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, currentTemperature, 30000, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, currentTemperature, 30000, 70);
 
             // Assert
-            Assert.Contains("Éteindre le chauffage", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnHeatingOff, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOnLights_WhenLuxIsTooLow()
         {
             // Arrange
-            int currentLux = 20000;
+            int currentLux = 200;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, currentLux, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, currentLux, 70);
 
             // Assert
-            Assert.Contains("Allumer les lumières", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnLightsOn, _advices);
         }
 
         [Test]
@@ -67,91 +67,91 @@ namespace AutomateTests.Utils
             _statuses.AreLightsActive = true;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, currentLux, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, currentLux, 70);
 
             // Assert
-            Assert.Contains("Éteindre les lumières", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnLightsOff, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOnVentilation_WhenHumidityIsTooHigh()
         {
             // Arrange
-            double currentHumidity = 90.0;
+            int currentHumidity = 90;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, 30000, currentHumidity);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, 30000, currentHumidity);
 
             // Assert
-            Assert.Contains("Allumer la ventilation", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnVentilationOn, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOffVentilation_WhenHumidityIsTooLow()
         {
             // Arrange
-            double currentHumidity = 50.0;
+            int currentHumidity = 50;
             _statuses.IsVentilationActive = true;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, 30000, currentHumidity);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, 30000, currentHumidity);
 
             // Assert
-            Assert.Contains("Éteindre la ventilation", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnVentilationOff, _advices);
         }
 
         [Test]
         public void EvaluateConditions_OpenWindows_WhenTemperatureIsTooHigh()
         {
             // Arrange
-            double currentTemperature = 28.0;
+            int currentTemperature = 28;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, currentTemperature, 30000, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, currentTemperature, 30000, 70);
 
             // Assert
-            Assert.Contains("Ouvrir les fenêtres", _advice.Advices);
+            Assert.Contains(AdviceUtils.OpenWindows, _advices);
         }
 
         [Test]
         public void EvaluateConditions_CloseWindows_WhenTemperatureIsTooLow()
         {
             // Arrange
-            double currentTemperature = 17.0;
+            int currentTemperature = 17;
             _statuses.AreWindowsActive = true;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, currentTemperature, 30000, 70.0);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, currentTemperature, 30000, 70);
 
             // Assert
-            Assert.Contains("Fermer les fenêtres", _advice.Advices);
+            Assert.Contains(AdviceUtils.CloseWindows, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOnSprinklers_WhenHumidityIsTooLow()
         {
             // Arrange
-            double currentHumidity = 50.0;
+            int currentHumidity = 50;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, 30000, currentHumidity);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, 30000, currentHumidity);
 
             // Assert
-            Assert.Contains("Allumer les arroseurs", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnSprinklersOn, _advices);
         }
 
         [Test]
         public void EvaluateConditions_TurnOffSprinklers_WhenHumidityIsTooHigh()
         {
             // Arrange
-            double currentHumidity = 90.0;
+            int currentHumidity = 90;
             _statuses.AreSprinklersActive = true;
 
             // Act
-            AdviceUtils.EvaluateConditions(_advice, _tomato, _statuses, 22.0, 30000, currentHumidity);
+            _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, 22, 30000, currentHumidity);
 
             // Assert
-            Assert.Contains("Éteindre les arroseurs", _advice.Advices);
+            Assert.Contains(AdviceUtils.TurnSprinklersOff, _advices);
         }
     }
 }

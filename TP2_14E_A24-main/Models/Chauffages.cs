@@ -18,15 +18,15 @@ namespace Automate.Models
             };
         }
 
-        public override void ControlSystemSerre(TomatoConditions tomato, DateTime currentDate, SystemStatus status)
+        public override void ControlSystemSerre(TomatoConditions tomato, GreenhouseCondition condition, SystemStatus status)
         {
-            if (IsDay(currentDate))
+            if (IsDay(condition.DateTime))
             {
-                Status = (status.temperature < tomato.DayMinTemperature) ? "On" : "Off";
+                Status = (condition.Temperature < tomato.DayMinTemperature) ? "On" : "Off";
             }
             else
             {
-                Status = (status.temperature < tomato.NightMinTemperature) ? "On" : "Off";
+                Status = (condition.Temperature < tomato.NightMinTemperature) ? "On" : "Off";
             }
 
             status.IsHeatingActive = Status == "On";

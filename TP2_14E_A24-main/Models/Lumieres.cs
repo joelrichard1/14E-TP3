@@ -17,11 +17,11 @@ namespace Automate.Models
                 _ => throw new ArgumentException("Status must be 'On' or 'Off'.")
             };
         }
-        public override void ControlSystemSerre(TomatoConditions tomato, DateTime currentDate, SystemStatus status)
+        public override void ControlSystemSerre(TomatoConditions tomato, GreenhouseCondition condition, SystemStatus status)
         {
-            if (IsDay(currentDate))
+            if (IsDay(condition.DateTime))
             {
-                Status = (status.lux < tomato.MinLux) ? "On" : "Off";
+                Status = (condition.Luminosity < tomato.MinLux) ? "On" : "Off";
             }
             else
             {

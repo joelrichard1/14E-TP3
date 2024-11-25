@@ -14,7 +14,7 @@ namespace Automate.Models
         public string Status { get; set; } = "Off";
         protected bool IsDay(DateTime currentDate) => currentDate.Hour >= 6 && currentDate.Hour < 18;
 
-        public abstract void ControlSystemSerre(TomatoConditions tomato, DateTime currentDate, SystemStatus status);
+        public abstract void ControlSystemSerre(TomatoConditions tomato, GreenhouseCondition condition, SystemStatus status);
     }
 }
 

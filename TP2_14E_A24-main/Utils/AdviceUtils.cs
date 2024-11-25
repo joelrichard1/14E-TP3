@@ -6,6 +6,17 @@ namespace Automate.Utils
 {
     public static class AdviceUtils
     {
+        public const string TurnLightsOn = "Allumer les lumières";
+        public const string TurnLightsOff = "Éteindre les lumières";
+        public const string TurnHeatingOn = "Allumer le chauffage";
+        public const string TurnHeatingOff = "Éteindre le chauffage";
+        public const string OpenWindows = "Ouvrir les fenêtres";
+        public const string CloseWindows = "Fermer les fenêtres";
+        public const string TurnSprinklersOn = "Allumer les arroseurs";
+        public const string TurnSprinklersOff = "Éteindre les arroseurs";
+        public const string TurnVentilationOn = "Allumer la ventilation";
+        public const string TurnVentilationOff = "Éteindre la ventilation";
+
         public static List<string> EvaluateConditions(TomatoConditions tomato, SystemStatus statuses, int currentTemperature, int currentLux, int currentHumidity)
         {
             // Clear previous advices
@@ -25,22 +36,22 @@ namespace Automate.Utils
             {
                 if (!statuses.IsHeatingActive)
                 {
-                    advices.Add("Allumer le chauffage");
+                    advices.Add(TurnHeatingOn);
                 }
                 if (statuses.AreWindowsActive)
                 {
-                    advices.Add("Fermer les fenêtres");
+                    advices.Add(CloseWindows);
                 }
             }
             else if (currentTemperature > tomato.DayMaxTemperature)
             {
                 if (statuses.IsHeatingActive)
                 {
-                    advices.Add("Éteindre le chauffage");
+                    advices.Add(TurnHeatingOff);
                 }
                 if (!statuses.AreWindowsActive)
                 {
-                    advices.Add("Ouvrir les fenêtres");
+                    advices.Add(OpenWindows);
                 }
             }
         }
@@ -51,11 +62,11 @@ namespace Automate.Utils
             // Light checks for lights
             if (currentLux < tomato.MinLux && !statuses.AreLightsActive)
             {
-                advices.Add("Allumer les lumières");
+                advices.Add(TurnLightsOn);
             }
             else if (currentLux > tomato.MaxLux && statuses.AreLightsActive)
             {
-                advices.Add("Éteindre les lumières");
+                advices.Add(TurnLightsOff);
             }
         }
 
@@ -66,22 +77,22 @@ namespace Automate.Utils
             {
                 if (!statuses.AreSprinklersActive)
                 {
-                    advices.Add("Allumer les arroseurs");
+                    advices.Add(TurnSprinklersOn);
                 }
                 if (statuses.IsVentilationActive)
                 {
-                    advices.Add("Éteindre la ventilation");
+                    advices.Add(TurnVentilationOff);
                 }
             }
             else if (currentHumidity > tomato.MaxHumidity)
             {
                 if (statuses.AreSprinklersActive)
                 {
-                    advices.Add("Éteindre les arroseurs");
+                    advices.Add(TurnSprinklersOff);
                 }
                 if (!statuses.IsVentilationActive)
                 {
-                    advices.Add("Allumer la ventilation");
+                    advices.Add(TurnVentilationOn);
                 }
             }
         }

@@ -264,6 +264,7 @@ namespace Automate.ViewModels
             isReading = false;
             ButtonText = "Démarrer Simulation";
             _currentCondition = _initialCondition;
+            UpdateConditionLabels();
             UpdateAdvices();
         }
 
