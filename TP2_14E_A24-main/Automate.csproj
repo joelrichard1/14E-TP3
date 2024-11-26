@@ -29,6 +29,7 @@
     <None Remove="Resources\temperature.png" />
     <None Remove="Resources\ventilateur.png" />
     <None Remove="Resources\window.png" />
+    <None Remove="TempData.csv" />
     <None Remove="Views\automate.jpg" />
     <None Remove="Views\fan.png" />
   </ItemGroup>
@@ -91,6 +92,9 @@
     <Resource Include="Resources\window.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="TempData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Views\automate.jpg" />
     <Resource Include="Views\fan.png" />
   </ItemGroup>
