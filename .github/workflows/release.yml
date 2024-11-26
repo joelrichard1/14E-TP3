@@ -65,6 +65,7 @@ jobs:
 
   failure-handler:
       if: failure() # Execute only if last job failed
+      needs: build
       runs-on: ubuntu-latest
       steps:
       - name: Create GitHub Issue
