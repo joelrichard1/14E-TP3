@@ -63,32 +63,32 @@ jobs:
         asset_name: TP3-Automate.zip
         asset_content_type: application/zip
 
-failure-handler:
-    if: failure() # Execute only if last job failed
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create GitHub Issue
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const title = "🚨 Build échoué";
-          const body = `Échec de build dans le repo **${context.repo.owner}/${context.repo.repo}**.
-          
-          **Branch:** \`${context.ref}\`
-          **Commit:** \`${context.sha}\`
-
-          [🔗 Cliquez ici pour accéder les logs de GitHub Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})  
-
-          Regardez les logs pour trouver et corriger le problème.`;
-
-          const labels = ["build", "error"];
-          
-          const issue = await github.issues.create({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            title,
-            body,
-            labels
-          });
-          console.log(`Issue crée: ${issue.data.html_url}`);
+  failure-handler:
+      if: failure() # Execute only if last job failed
+      runs-on: ubuntu-latest
+      steps:
+      - name: Create GitHub Issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const title = "🚨 Build échoué";
+            const body = `Échec de build dans le repo **${context.repo.owner}/${context.repo.repo}**.
+            
+            **Branch:** \`${context.ref}\`
+            **Commit:** \`${context.sha}\`
+  
+            [🔗 Cliquez ici pour accéder les logs de GitHub Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})  
+  
+            Regardez les logs pour trouver et corriger le problème.`;
+  
+            const labels = ["build", "error"];
+            
+            const issue = await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels
+            });
+            console.log(`Issue crée: ${issue.data.html_url}`);
