@@ -14,83 +14,83 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+    # - name: Checkout code
+    #   uses: actions/checkout@v3
+    #   with:
+    #     fetch-depth: 0
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'
+    # - name: Setup .NET
+    #   uses: actions/setup-dotnet@v3
+    #   with:
+    #     dotnet-version: '6.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore TP2_14E_A24-main/Automate.csproj
+    # - name: Restore dependencies
+    #   run: dotnet restore TP2_14E_A24-main/Automate.csproj
 
-    - name: Build
-      run: dotnet build TP2_14E_A24-main/Automate.csproj --configuration Release --no-restore
+    # - name: Build
+    #   run: dotnet build TP2_14E_A24-main/Automate.csproj --configuration Release --no-restore
 
-    - name: Publish
-      run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish
+    # - name: Publish
+    #   run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish
 
-    - name: List publish directory
-      run: Get-ChildItem -Path ./publish
+    # - name: List publish directory
+    #   run: Get-ChildItem -Path ./publish
 
-    - name: Zip publish directory
-      run: Compress-Archive -Path ./publish/* -DestinationPath ./publish/TP3-Automate.zip
+    # - name: Zip publish directory
+    #   run: Compress-Archive -Path ./publish/* -DestinationPath ./publish/TP3-Automate.zip
 
-    - name: Get latest tag
-      id: get_latest_tag
-      run: |
-        $LATEST_TAG = git describe --tags --abbrev=0 2>$null
-        if (-not $LATEST_TAG) {
-          $LATEST_TAG = "TP3-V0"
-        }
-        echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
-        Write-Host "Derniere tag: $LATEST_TAG"
-      shell: pwsh
+    # - name: Get latest tag
+    #   id: get_latest_tag
+    #   run: |
+    #     $LATEST_TAG = git describe --tags --abbrev=0 2>$null
+    #     if (-not $LATEST_TAG) {
+    #       $LATEST_TAG = "TP3-V0"
+    #     }
+    #     echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
+    #     Write-Host "Derniere tag: $LATEST_TAG"
+    #   shell: pwsh
 
-    - name: Determine next version
-      id: determine_version
-      run: |
-        # Incremente le número de version a partir de la dèrniere release
-        $LATEST_TAG = $env:LATEST_TAG
-        $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
-        $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
-        $NEW_TAG = "TP3-V$NEXT_NUMBER"
-        echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
-        Write-Host "New version: $NEW_TAG"
-      shell: pwsh
+    # - name: Determine next version
+    #   id: determine_version
+    #   run: |
+    #     # Incremente le número de version a partir de la dèrniere release
+    #     $LATEST_TAG = $env:LATEST_TAG
+    #     $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
+    #     $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
+    #     $NEW_TAG = "TP3-V$NEXT_NUMBER"
+    #     echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
+    #     Write-Host "New version: $NEW_TAG"
+    #   shell: pwsh
         
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ env.NEW_TAG }}
-        release_name: Release ${{ env.NEW_TAG }}
-        body: |
-          Release notes for ${{ env.NEW_TAG }}
-        draft: false
-        prerelease: false
+    # - name: Create Release
+    #   id: create_release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ env.NEW_TAG }}
+    #     release_name: Release ${{ env.NEW_TAG }}
+    #     body: |
+    #       Release notes for ${{ env.NEW_TAG }}
+    #     draft: false
+    #     prerelease: false
 
-    - name: Debug Show upload_url
-      run: | 
-        echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
+    # - name: Debug Show upload_url
+    #   run: | 
+    #     echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
 
-    - name: Set upload URL
-      run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $env:GITHUB_ENV
+    # - name: Set upload URL
+    #   run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $env:GITHUB_ENV
       
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ env.UPLOAD_URL }}
-        asset_path: ./publish/TP3-Automate.zip
-        asset_name: TP3-Automate.zip
-        asset_content_type: application/zip
+    # - name: Upload Release Asset
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ env.UPLOAD_URL }}
+    #     asset_path: ./publish/TP3-Automate.zip
+    #     asset_name: TP3-Automate.zip
+    #     asset_content_type: application/zip
 
   failure-handler:
       if: failure() # Execute only if last job failed

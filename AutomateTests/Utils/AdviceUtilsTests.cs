@@ -89,7 +89,7 @@ namespace AutomateTests.Utils
         public void EvaluateConditions_TurnOnLights_WhenLuxIsTooLow()
         {
             // Arrange
-            _condition.Luminosity = 600;
+            _condition.Luminosity = 200;
 
             // Act
             _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, _condition);
