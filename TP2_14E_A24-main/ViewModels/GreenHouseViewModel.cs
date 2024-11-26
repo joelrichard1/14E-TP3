@@ -19,6 +19,7 @@ namespace Automate.ViewModels
     {
         private const string StatusOpen = "Ouvert";
         private const string StatusClosed = "Fermé";
+        private const int SimulationInterval = 10;
 
         private GreenhouseCondition _initialCondition;
         private GreenhouseCondition _currentCondition;
@@ -230,7 +231,7 @@ namespace Automate.ViewModels
         {
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(3) //TODO: changer ça
+                Interval = TimeSpan.FromSeconds(SimulationInterval)
             };
             _timer.Tick += (sender, args) => UpdateCurrentConditions();
             _timer.Start();
