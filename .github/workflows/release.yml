@@ -47,13 +47,14 @@ jobs:
           $LATEST_TAG = "TP3-V0"
         }
         echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
-        Write-Host "Última tag: $LATEST_TAG"
+        Write-Host "Derniere tag: $LATEST_TAG"
       shell: pwsh
 
     - name: Determine next version
       id: determine_version
       run: |
         # Incremente le número de version a partir de la dèrniere release
+        $LATEST_TAG = $env:LATEST_TAG
         $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
         $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
         $NEW_TAG = "TP3-V$NEXT_NUMBER"
