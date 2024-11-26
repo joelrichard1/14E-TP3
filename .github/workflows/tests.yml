@@ -29,7 +29,7 @@ jobs:
 
     - name: Test
       run: |
-        dotnet test --no-build --verbosity normal TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true --logger "console;verbosity=detailed"
+        dotnet test --no-build --verbosity detailed TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true --logger "console;verbosity=detailed"
         if [ $? -ne 0 ]; then exit 1; fi
 
   failure-handler:
