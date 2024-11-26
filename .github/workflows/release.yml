@@ -50,7 +50,7 @@ jobs:
 
     - name: Determine next version
       id: determine_version
-        run: |
+      run: |
         # Incremente le número de version a partir de la dèrniere release
         $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
         $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
