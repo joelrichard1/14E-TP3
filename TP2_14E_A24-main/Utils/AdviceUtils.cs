@@ -25,7 +25,7 @@ namespace Automate.Utils
 
             EvaluateTemperatureConditions(advices, tomato, statuses, condition.Temperature, condition.DateTime);
             EvaluateHumidityConditions(advices, tomato, statuses, condition.Humidity);
-            EvaluateLuminosityConditions(advices, tomato, statuses, condition.Luminosity);
+            EvaluateLuminosityConditions(advices, tomato, statuses, condition.Luminosity, condition.DateTime);
 
             return advices;
         }
@@ -61,8 +61,17 @@ namespace Automate.Utils
             }
         }
 
-        public static void EvaluateLuminosityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentLux)
+        public static void EvaluateLuminosityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentLux, DateTime currentDatetime)
         {
+             bool isDay = IsDay(currentDatetime);
+            if (isDay)
+            {
+                if (statuses.AreLightsActive)
+                {
+                    advices.Add(TurnLightsOff);
+                }
+                return;
+            }
 
             // Light checks for lights
             if (currentLux < tomato.MinLux && !statuses.AreLightsActive)
