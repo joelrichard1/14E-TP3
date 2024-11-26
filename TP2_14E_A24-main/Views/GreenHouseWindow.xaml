@@ -59,11 +59,11 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <ui:Button Content="{Binding ButtonText}" Command="{Binding ToggleReadingCommand}" HorizontalAlignment="Left" Margin="1307,85,0,0" VerticalAlignment="Top" Height="51" Width="109" RenderTransformOrigin="0.228,0.713" Grid.RowSpan="2"/>
+        <ui:Button Content="{Binding ButtonText}" Command="{Binding ToggleReadingCommand}" HorizontalAlignment="Left" Margin="1276,85,0,0" VerticalAlignment="Top" Height="51" Width="140" RenderTransformOrigin="0.228,0.713" Grid.RowSpan="2"/>
         <Rectangle HorizontalAlignment="Left" Height="102" Margin="32,53,0,0" Stroke="Black" VerticalAlignment="Top" Width="284" Grid.Row="1" Grid.RowSpan="2"/>
-        <Label Content="{Binding Temperature}" Margin="62,21,1339,0" VerticalAlignment="Top" Grid.Row="2" RenderTransformOrigin="0.144,0.521" FontWeight="Bold"/>
-        <Label Content="{Binding Humidity}" HorizontalAlignment="Left" Margin="144,21,0,0" VerticalAlignment="Top" Grid.Row="2" FontWeight="Bold"/>
-        <Label Content="{Binding Luminosity}" HorizontalAlignment="Left" Margin="217,21,0,0" VerticalAlignment="Top" Grid.Row="2" RenderTransformOrigin="1.071,0.975" FontWeight="Bold"/>
+        <Label Content="{Binding Temperature}" Margin="60,13,-4,0" VerticalAlignment="Top" Grid.Row="2" RenderTransformOrigin="0.144,0.521" FontWeight="Bold" Height="29"/>
+        <Label Content="{Binding Humidity}" HorizontalAlignment="Left" Margin="142,13,0,0" VerticalAlignment="Top" Grid.Row="2" FontWeight="Bold" Height="23" Width="50"/>
+        <Label Content="{Binding Luminosity}" HorizontalAlignment="Left" Margin="225,13,0,0" VerticalAlignment="Top" Grid.Row="2" RenderTransformOrigin="1.071,0.975" FontWeight="Bold" Height="23" Width="69"/>
         <Label Content="Serre" HorizontalAlignment="Left" Margin="26,69,0,0" VerticalAlignment="Top" FontSize="36" RenderTransformOrigin="0.342,-0.002" FontWeight="Bold"/>
         <Rectangle HorizontalAlignment="Left" Height="9" Margin="806,0,0,144" VerticalAlignment="Bottom" Width="45" Fill="{Binding FanColor}" Grid.Row="6" RenderTransformOrigin="1.236,14.523">
             <Rectangle.RenderTransform>
@@ -98,7 +98,16 @@
             </Rectangle.RenderTransform>
         </Rectangle>
         <Rectangle HorizontalAlignment="Left" Height="10" Margin="611,83,0,0" VerticalAlignment="Top" Width="46" Fill="{Binding HeatingColor}" Grid.Row="6"/>
-        <Rectangle HorizontalAlignment="Left" Height="568" Margin="1110,24,0,0" Grid.RowSpan="6" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Width="306"/>
+        <Border HorizontalAlignment="Left" Height="568" Margin="1110,24,0,0" Grid.RowSpan="6" Grid.Row="1" VerticalAlignment="Top" Width="306" BorderBrush="Black" 
+            BorderThickness="1">
+            <TextBlock
+            Text="{Binding AdvicesText, Mode=OneWay}" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            TextWrapping="Wrap"
+            FontSize="16"
+            Margin="10,5,5,0"/>
+        </Border>
         <Label Content="Conseils" HorizontalAlignment="Left" Margin="1110,104,0,0" VerticalAlignment="Top" FontSize="24" RenderTransformOrigin="1.34,0.64" Grid.RowSpan="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="52,16,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24"><Run Language="fr-ca" Text="Fenêtres"/></TextBlock>
         <Button Content="{Binding WindowStatus}" Background="{Binding WindowColor}" Command="{Binding ToggleWindowCommand}" Margin="238,16,0,0" Grid.Row="4" VerticalAlignment="Top" Width="58" Foreground="White"/>

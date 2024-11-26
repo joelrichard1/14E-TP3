@@ -17,7 +17,7 @@ namespace Automate.Utils
 
         public MongoDBService(string databaseName)
         {
-            var client = new MongoClient("mongodb://localhost:27017/AutomateDB");
+            var client = new MongoClient("mongodb://localhost:27017/TP3DB");
             _database = client.GetDatabase(databaseName);
             _users = _database.GetCollection<User>("Users");
             _taches = _database.GetCollection<Tache>("Taches");

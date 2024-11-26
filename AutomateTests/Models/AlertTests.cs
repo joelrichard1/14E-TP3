@@ -87,7 +87,7 @@ namespace AutomateTests.Models
 
             Alert alert = new(description, alertType, date);
 
-            int expectedDaysRemaining = date.Day - DateTime.Today.Day;
+            int expectedDaysRemaining = (date - DateTime.Today).Days;
             Assert.AreEqual(expectedDaysRemaining, alert.DaysRemaining);
         }
     }
