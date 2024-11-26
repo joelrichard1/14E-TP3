@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -247,6 +248,9 @@ namespace Automate.ViewModels
             _currentCondition = _initialCondition;
             UpdateConditionLabels();
             UpdateAdvices();
+
+            MessageBox.Show("La simulation est terminée. Les mesures originales ont été restaurées.",
+                            "Fin de la simulation", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void UpdateCurrentConditions()
