@@ -1,4 +1,5 @@
 ﻿using Automate.Models;
+using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
 
@@ -17,22 +18,26 @@ namespace Automate.Utils
         public const string TurnVentilationOn = "Allumer la ventilation";
         public const string TurnVentilationOff = "Éteindre la ventilation";
 
-        public static List<string> EvaluateConditions(TomatoConditions tomato, SystemStatus statuses, int currentTemperature, int currentLux, int currentHumidity)
+        public static List<string> EvaluateConditions(ICropConditions tomato, SystemStatus statuses, GreenhouseCondition condition)
         {
             // Clear previous advices
             List<string> advices = new List<string>();
 
-            EvaluateTemperatureConditions(advices, tomato, statuses, currentTemperature);
-            EvaluateHumidityConditions(advices, tomato, statuses, currentHumidity);
-            EvaluateLuminosityConditions(advices, tomato, statuses, currentLux);
+            EvaluateTemperatureConditions(advices, tomato, statuses, condition.Temperature, condition.DateTime);
+            EvaluateHumidityConditions(advices, tomato, statuses, condition.Humidity);
+            EvaluateLuminosityConditions(advices, tomato, statuses, condition.Luminosity);
 
             return advices;
         }
 
-        public static void EvaluateTemperatureConditions(List<string> advices, TomatoConditions tomato, SystemStatus statuses, int currentTemperature)
+        public static void EvaluateTemperatureConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentTemperature, DateTime currentDatetime)
         {
+            bool isDay = IsDay(currentDatetime);
+            int minTemperature = isDay ? tomato.DayMinTemperature : tomato.NightMinTemperature;
+            int maxTemperature = isDay ? tomato.DayMaxTemperature : tomato.NightMaxTemperature;
+
             // Temperature checks for heating and windows
-            if (currentTemperature < tomato.DayMinTemperature)
+            if (currentTemperature < minTemperature)
             {
                 if (!statuses.IsHeatingActive)
                 {
@@ -43,7 +48,7 @@ namespace Automate.Utils
                     advices.Add(CloseWindows);
                 }
             }
-            else if (currentTemperature > tomato.DayMaxTemperature)
+            else if (currentTemperature > maxTemperature)
             {
                 if (statuses.IsHeatingActive)
                 {
@@ -56,7 +61,7 @@ namespace Automate.Utils
             }
         }
 
-        public static void EvaluateLuminosityConditions(List<string> advices, TomatoConditions tomato, SystemStatus statuses, int currentLux)
+        public static void EvaluateLuminosityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentLux)
         {
 
             // Light checks for lights
@@ -70,7 +75,7 @@ namespace Automate.Utils
             }
         }
 
-        public static void EvaluateHumidityConditions(List<string> advices, TomatoConditions tomato, SystemStatus statuses, int currentHumidity)
+        public static void EvaluateHumidityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentHumidity)
         {
             // Humidity checks for sprinklers and ventilation
             if (currentHumidity < tomato.MinHumidity)
@@ -96,5 +101,7 @@ namespace Automate.Utils
                 }
             }
         }
+
+        private static bool IsDay(DateTime currentDate) => currentDate.Hour >= 6 && currentDate.Hour < 18;
     }
 }

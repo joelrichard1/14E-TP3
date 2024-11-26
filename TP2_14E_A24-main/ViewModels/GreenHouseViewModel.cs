@@ -23,8 +23,6 @@ namespace Automate.ViewModels
         private GreenhouseCondition _initialCondition;
         private GreenhouseCondition _currentCondition;
         private List<GreenhouseCondition> _conditions;
-        private Dictionary<string, string> status;
-        private Dictionary<string, Brush> color;
         private string temperature;
         private string humidity;
         private string luminosity;
@@ -33,7 +31,7 @@ namespace Automate.ViewModels
         private bool isReading;
         private DispatcherTimer _timer;
         private List<string> _advices;
-        private TomatoConditions TomatoConditions = new();
+        private ICropConditions TomatoConditions = new TomatoConditions();
         private SystemStatus systemStatus;
         public ICommand ToggleWindowCommand => new RelayCommand(() => ToggleStatus("Window"));
         public ICommand ToggleFanCommand => new RelayCommand(() => ToggleStatus("Fan"));
@@ -46,23 +44,7 @@ namespace Automate.ViewModels
 
         public GreenHouseViewModel()
         {
-            status = new Dictionary<string, string>
-            {
-                { "Window", "Fermé" },
-                { "Fan", "Fermé" },
-                { "Irrigation", "Fermé" },
-                { "Heating", "Fermé" },
-                { "Lights", "Fermé" }
-            };
-
-            color = new Dictionary<string, Brush>
-            {
-                { "Window", Brushes.Red },
-                { "Fan", Brushes.Red },
-                { "Irrigation", Brushes.Red },
-                { "Heating", Brushes.Red },
-                { "Lights", Brushes.Red }
-            };
+            
             // _conditions = new List<GreenhouseCondition>(); /*LoadConditionsFromCsv();*/
             _conditions = LoadConditionsFromCsv();
 
@@ -187,7 +169,6 @@ namespace Automate.ViewModels
             set { buttonText = value; OnPropertyChanged(); }
         }
 
-
         private void ToggleStatus(string systemControl)
         {
             switch (systemControl)
@@ -218,7 +199,6 @@ namespace Automate.ViewModels
                     OnPropertyChanged(nameof(LightsColor));
                     break;
             }
-
             UpdateAdvices();
         }
 
@@ -287,15 +267,12 @@ namespace Automate.ViewModels
 
         private void UpdateAdvices()
         {
-            Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, _currentCondition.Temperature,
-                                                     _currentCondition.Luminosity, _currentCondition.Humidity);
+            Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, _currentCondition);
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }

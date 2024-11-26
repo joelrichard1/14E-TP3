@@ -1,7 +1,7 @@
 ﻿
 namespace Automate.Models
 {
-    public class TomatoConditions
+    public class TomatoConditions : ICropConditions
     {
         public int DayMinTemperature { get; set; } = 20; 
         public int DayMaxTemperature { get; set; } = 27; 
