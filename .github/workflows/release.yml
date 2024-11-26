@@ -75,18 +75,23 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Set upload URL
-      run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
+    - name: Debug: Show upload_url
+      run: echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
 
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ env.UPLOAD_URL }}
-        asset_path: ./publish/TP3-Automate.zip
-        asset_name: TP3-Automate.zip
-        asset_content_type: application/zip
+    - name: Debug: Show output
+      run: echo "output: ${{ steps.create_release.outputs }}"
+    # - name: Set upload URL
+    #   run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
+      
+    # - name: Upload Release Asset
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ env.UPLOAD_URL }}
+    #     asset_path: ./publish/TP3-Automate.zip
+    #     asset_name: TP3-Automate.zip
+    #     asset_content_type: application/zip
 
   failure-handler:
       if: failure() # Execute only if last job failed
