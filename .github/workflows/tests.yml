@@ -29,3 +29,34 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
+
+  failure-handler:
+      if: failure() # Execute only if last job failed
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+      - name: Create GitHub Issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const title = "🚨 Tests échoué";
+            const body = `Échec de tests dans le repo **${context.repo.owner}/${context.repo.repo}**.
+            
+            **Branch:** \`${context.ref}\`
+            **Commit:** \`${context.sha}\`
+  
+            [🔗 Cliquez ici pour accéder les logs de GitHub Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})  
+  
+            Regardez les logs pour trouver et corriger le problème.`;
+  
+            const labels = ["build", "error"];
+            
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels
+            });
+            console.log(`Issue crée: ${issue.data.html_url}`);

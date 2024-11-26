@@ -40,20 +40,24 @@ jobs:
     - name: Get latest tag
       id: get_latest_tag
       run: |
-        # Obtém a última tag do repositório
-        LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "TP3-V0")
-        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-        echo "Última tag: $LATEST_TAG"
+        $LATEST_TAG = git describe --tags --abbrev=0 2>$null
+        if (-not $LATEST_TAG) {
+          $LATEST_TAG = "TP3-V0"
+        }
+        echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
+        Write-Host "Última tag: $LATEST_TAG"
+      shell: pwsh
 
     - name: Determine next version
       id: determine_version
-      run: |
+        run: |
         # Incremente le número de version a partir de la dèrniere release
-        LATEST_NUMBER=$(echo $LATEST_TAG | sed -E 's/TP3-V([0-9]+)/\1/')
-        NEXT_NUMBER=$((LATEST_NUMBER + 1))
-        NEW_TAG="TP3-V$NEXT_NUMBER"
-        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-        echo "New version: $NEW_TAG"
+        $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
+        $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
+        $NEW_TAG = "TP3-V$NEXT_NUMBER"
+        echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
+        Write-Host "New version: $NEW_TAG"
+      shell: pwsh
         
     - name: Create Release
       id: create_release
@@ -91,8 +95,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const title = "🚨 Build échoué";
-            const body = `Échec de build dans le repo **${context.repo.owner}/${context.repo.repo}**.
+            const title = "🚨 Release échoué";
+            const body = `Échec de build pour la release dans le repo **${context.repo.owner}/${context.repo.repo}**.
             
             **Branch:** \`${context.ref}\`
             **Commit:** \`${context.sha}\`
