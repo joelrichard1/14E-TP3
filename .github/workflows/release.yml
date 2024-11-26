@@ -76,10 +76,12 @@ jobs:
         prerelease: false
 
     - name: Debug Show upload_url
-        run: echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
+      run: | 
+        echo "Upload URL: ${{ steps.create_release.outputs.upload_url }}"
 
     - name: Debug Show output
-        run: echo "output: ${{ steps.create_release.outputs }}"
+      run: |
+        echo "output: ${{ steps.create_release.outputs }}"
     # - name: Set upload URL
     #   run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
       
