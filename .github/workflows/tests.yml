@@ -29,7 +29,7 @@ jobs:
 
     - name: Test
       run: |
-        dotnet test --no-build --verbosity detailed TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
+        dotnet test --no-build --verbosity detailed AutomateTests/AutomateTests.csproj /p:EnableWindowsTargeting=true
 
   failure-handler:
       if: failure() # Execute only if last job failed
