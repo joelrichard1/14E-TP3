@@ -27,6 +27,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
 
+    - name: Restore dependencies
+      run: dotnet restore AutomateTests/AutomateTests.csproj /p:EnableWindowsTargeting=true
+
     - name: Build
       run: dotnet build --no-restore AutomateTests/AutomateTests.csproj /p:EnableWindowsTargeting=true
 
