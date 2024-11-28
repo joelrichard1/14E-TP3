@@ -13,9 +13,11 @@
     </Window.Resources>
 
     <Grid>
-        <Button Margin="270,126,0,0" Command="{Binding ViewCalendrierCommand}" Foreground="White" Background="#FF152510" Height="109" Width="293" FontSize="22" VerticalAlignment="Top">Consulter le Calendrier
+        <Button Margin="270,63,0,0" Command="{Binding ViewGreenHouseCommand}" Foreground="White" Background="#FF152510" Height="109" Width="293" FontSize="22" VerticalAlignment="Top">Consulter la serre
         </Button>
-        <Button x:Name="btnModifier" Command="{Binding EditCalendrierCommand}" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}" Margin="270,253,0,0" Background="#FF152510" Foreground="White" Height="109" Width="293" FontSize="22" VerticalAlignment="Top">Modifier le Calendrier</Button>
+        <Button Margin="269,188,0,0" Command="{Binding ViewCalendrierCommand}" Foreground="White" Background="#FF152510" Height="109" Width="293" FontSize="22" VerticalAlignment="Top">Consulter le Calendrier
+        </Button>
+        <Button x:Name="btnModifier" Command="{Binding EditCalendrierCommand}" Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}" Margin="270,315,0,0" Background="#FF152510" Foreground="White" Height="109" Width="292" FontSize="22" VerticalAlignment="Top">Modifier le Calendrier</Button>
         <Label Content="Bienvenue" HorizontalAlignment="Left" Margin="709,14,0,0" VerticalAlignment="Top" Panel.ZIndex="1" RenderTransformOrigin="0.435,-5.183" Foreground="White"/>
         <Label Name="roleInfo" Content="" HorizontalAlignment="Left" Margin="641,14,0,0" VerticalAlignment="Top" Width="136" FontWeight="Bold" Panel.ZIndex="1" Foreground="White"/>
         <Rectangle HorizontalAlignment="Center" Height="48" VerticalAlignment="Top" Width="800" Stroke="Black" Stretch="UniformToFill" Fill="#FF2E5A00"/>

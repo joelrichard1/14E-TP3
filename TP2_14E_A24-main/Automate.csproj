@@ -12,11 +12,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\arrosage.png" />
     <None Remove="Resources\automate.jpg" />
+    <None Remove="Resources\bulb.png" />
+    <None Remove="Resources\chauffe-eau.png" />
+    <None Remove="Resources\download.png" />
+    <None Remove="Resources\fan.png" />
+    <None Remove="Resources\heater.png" />
+    <None Remove="Resources\humidity.png" />
+    <None Remove="Resources\light.png" />
+    <None Remove="Resources\plant.png" />
+    <None Remove="Resources\serre.png" />
+    <None Remove="Resources\serre2.png" />
+    <None Remove="Resources\sprinkler.png" />
+    <None Remove="Resources\TempData.csv" />
+    <None Remove="Resources\temperature.png" />
+    <None Remove="Resources\ventilateur.png" />
+    <None Remove="Resources\window.png" />
+    <None Remove="TempData.csv" />
+    <None Remove="Views\automate.jpg" />
+    <None Remove="Views\fan.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
     <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
@@ -24,7 +44,59 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\automate.jpg" />
+    <Resource Include="Resources\arrosage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\automate.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\bulb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\chauffe-eau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\download.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\fan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\heater.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\humidity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\plant.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\serre.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\serre2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\sprinkler.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\temperature.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ventilateur.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\window.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="TempData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Views\automate.jpg" />
+    <Resource Include="Views\fan.png" />
   </ItemGroup>
 
 </Project>

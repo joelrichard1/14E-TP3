@@ -1,4 +1,4 @@
-[![.NET Core](https://github.com/joelrichard1/14E-TP3/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/joelrichard1/14E-TP3/actions/workflows/dotnet.yml)
+[![NUnit Tests](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml)
 
 # TP3_Conception
 # Nom des membres d'équipe:
