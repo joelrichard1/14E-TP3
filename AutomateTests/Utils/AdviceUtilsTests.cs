@@ -105,8 +105,8 @@ namespace AutomateTests.Utils
         {
             // Arrange
             _condition.Luminosity = 60000;
-            _condition.DateTime = dayTime;
-            _statuses.AreLightsActive = true;
+            //_condition.DateTime = dayTime;
+            //_statuses.AreLightsActive = true;
 
             // Act
             _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, _condition);
