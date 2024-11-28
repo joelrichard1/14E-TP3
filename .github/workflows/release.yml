@@ -31,7 +31,7 @@ jobs:
       run: dotnet build TP2_14E_A24-main/Automate.csproj --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish /p:PublishSingleFile=true /p:PublishTrimmed=true /p:SelfContained=true
+      run: dotnet publish TP2_14E_A24-main/Automate.csproj --configuration Release --output ./publish /p:PublishSingleFile=true /p:SelfContained=true
 
     - name: List publish directory
       run: Get-ChildItem -Path ./publish
