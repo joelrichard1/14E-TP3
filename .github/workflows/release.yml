@@ -41,20 +41,25 @@ jobs:
 
     - name: Get latest tag
       id: get_latest_tag
+      shell: pwsh
       run: |
-        LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "TP3-V0")
-        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-        echo "Derniere tag: $LATEST_TAG"
+        $LATEST_TAG = git describe --tags --abbrev=0 2>$null
+        if (-not $LATEST_TAG) {
+          $LATEST_TAG = "TP3-V0"
+        }
+        echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
+        Write-Host "Derniere tag: $LATEST_TAG"
 
     - name: Determine next version
       id: determine_version
+      shell: pwsh
       run: |
-        LATEST_TAG=${{ env.LATEST_TAG }}
-        LATEST_NUMBER=${LATEST_TAG//TP3-V/}
-        NEXT_NUMBER=$((LATEST_NUMBER + 1))
-        NEW_TAG="TP3-V$NEXT_NUMBER"
-        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
-        echo "New version: $NEW_TAG"
+        $LATEST_TAG = $env:LATEST_TAG
+        $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
+        $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
+        $NEW_TAG = "TP3-V$NEXT_NUMBER"
+        echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
+        Write-Host "New version: $NEW_TAG"
 
     - name: Create Release
       id: create_release
