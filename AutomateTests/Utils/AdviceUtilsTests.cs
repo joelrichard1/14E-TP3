@@ -90,8 +90,8 @@ namespace AutomateTests.Utils
         {
             // Arrange
             _condition.Luminosity = 200;
-            _condition.DateTime = nightTime;
-            _statuses.AreLightsActive = false;
+            //_condition.DateTime = nightTime;
+            //_statuses.AreLightsActive = false;
 
             // Act
             _advices = AdviceUtils.EvaluateConditions(_tomato, _statuses, _condition);
