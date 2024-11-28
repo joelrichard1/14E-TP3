@@ -27,8 +27,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
 
+    - name: Build
+      run: dotnet build --no-restore AutomateTests/AutomateTests.csproj /p:EnableWindowsTargeting=true
+
     - name: Test
-      run: dotnet test --no-build --verbosity normal TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
+      run: dotnet test --no-build --verbosity normal AutomateTests/AutomateTests.csproj /p:EnableWindowsTargeting=true
 
   failure-handler:
       if: failure() # Execute only if last job failed
