@@ -55,9 +55,13 @@ jobs:
       shell: pwsh
       run: |
         $LATEST_TAG = $env:LATEST_TAG
-        $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
-        $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
-        $NEW_TAG = "TP3-V$NEXT_NUMBER"
+        if ($LATEST_TAG -eq "TP3-V0") {
+          $NEW_TAG = "TP3-V1"
+        } else {
+          $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
+          $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
+          $NEW_TAG = "TP3-V$NEXT_NUMBER"
+        }
         echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
         Write-Host "New version: $NEW_TAG"
 
