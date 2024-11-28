@@ -43,8 +43,10 @@ jobs:
       id: get_latest_tag
       shell: pwsh
       run: |
-        $LATEST_TAG = git describe --tags --abbrev=0 2>$null
-        if (-not $LATEST_TAG) {
+        $tags = git tag
+        if (-not [string]::IsNullOrWhiteSpace($tags)) {
+          $LATEST_TAG = git describe --tags --abbrev=0
+        } else {
           $LATEST_TAG = "TP3-V0"
         }
         echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
