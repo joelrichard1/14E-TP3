@@ -22,13 +22,13 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal TP2_14E_A24-main/Automate.csproj /p:EnableWindowsTargeting=true
 
   failure-handler:
       if: failure() # Execute only if last job failed
