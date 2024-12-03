@@ -11,7 +11,6 @@ namespace Automate.Models
             Alert = alert;
             Colour = "Orange";
             Date = date;
-
         }
     }
 }
