@@ -11,7 +11,7 @@ namespace Automate
         public LoginWindow()
         {
             InitializeComponent();
-            IMongoDBService mongoService = new MongoDBService("AutomateDB");
+            IMongoDBService mongoService = new MongoDBService("TP3DB");
             DataContext = new LoginViewModel(this, mongoService);
         }
 

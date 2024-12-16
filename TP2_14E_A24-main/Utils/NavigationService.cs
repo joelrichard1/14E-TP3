@@ -19,7 +19,7 @@ namespace Automate.Utils
 
             if (window is CalendrierWindow calendrierWindow)
             {
-                IMongoDBService mongoService = new MongoDBService("AutomateDB");
+                IMongoDBService mongoService = new MongoDBService("TP3DB");
                 ICurrentDateProvider currentDateProvider = new CurrentDateProvider();
 
                 var viewModel = new CalendarViewModel(calendrierWindow, mongoService, currentDateProvider, isEditMode: parametre);

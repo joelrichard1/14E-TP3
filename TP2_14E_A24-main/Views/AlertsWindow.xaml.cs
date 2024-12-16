@@ -10,7 +10,7 @@ namespace Automate.Views
         public AlertsWindow()
         {
             InitializeComponent();
-            IMongoDBService mongoService = new MongoDBService("AutomateDB");
+            IMongoDBService mongoService = new MongoDBService("TP3DB");
             DataContext = new AlertsViewModel(mongoService);
         }
     }

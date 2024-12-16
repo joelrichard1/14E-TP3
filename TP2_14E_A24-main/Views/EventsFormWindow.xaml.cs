@@ -12,14 +12,14 @@ namespace Automate.Views
         public EventsFormWindow()
         {
             InitializeComponent();
-            IMongoDBService mongoService = new MongoDBService("AutomateDB");
+            IMongoDBService mongoService = new MongoDBService("TP3DB");
             DataContext = new EventsFormViewModel(this, mongoService);
         }
 
         public EventsFormWindow(Tache tache)
         {
             InitializeComponent();
-            IMongoDBService mongoService = new MongoDBService("AutomateDB");
+            IMongoDBService mongoService = new MongoDBService("TP3DB");
             DataContext = new EventsFormViewModel(this, mongoService, tache);
         }
     }

@@ -19,7 +19,7 @@ namespace Automate.ViewModels
 
         public TasksWindowViewModel(ObservableCollection<Tache> tasks, Window currentWindow)
         {
-            _mongoService = new MongoDBService("AutomateDB");
+            _mongoService = new MongoDBService("TP3DB");
             Tasks = tasks;
 
             OpenTaskCommand = new RelayCommand<Tache>(OpenTask!);
