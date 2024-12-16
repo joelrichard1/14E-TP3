@@ -31,7 +31,6 @@
     <None Remove="Resources\window.png" />
     <None Remove="TempData.csv" />
     <None Remove="Views\automate.jpg" />
-    <None Remove="Views\fan.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,7 +95,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Views\automate.jpg" />
-    <Resource Include="Views\fan.png" />
   </ItemGroup>
 
 </Project>

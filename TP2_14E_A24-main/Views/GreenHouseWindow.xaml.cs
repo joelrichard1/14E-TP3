@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Automate.Views
 {
-    /// <summary>
-    /// Interaction logic for GreenHouseWindow.xaml
-    /// </summary>
     public partial class GreenHouseWindow : Window
     {
         public GreenHouseWindow()

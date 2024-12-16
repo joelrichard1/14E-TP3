@@ -20,7 +20,6 @@ namespace Automate.Utils
 
         public static List<string> EvaluateConditions(ICropConditions tomato, SystemStatus statuses, GreenhouseCondition condition)
         {
-            // Clear previous advices
             List<string> advices = new List<string>();
 
             EvaluateTemperatureConditions(advices, tomato, statuses, condition.Temperature, condition.DateTime);
@@ -36,7 +35,6 @@ namespace Automate.Utils
             int minTemperature = isDay ? tomato.DayMinTemperature : tomato.NightMinTemperature;
             int maxTemperature = isDay ? tomato.DayMaxTemperature : tomato.NightMaxTemperature;
 
-            // Temperature checks for heating and windows
             if (currentTemperature < minTemperature)
             {
                 if (!statuses.IsHeatingActive)
@@ -73,7 +71,6 @@ namespace Automate.Utils
                 return;
             }
 
-            // Light checks for lights
             if (currentLux < tomato.MinLux && !statuses.AreLightsActive)
             {
                 advices.Add(TurnLightsOn);
@@ -86,7 +83,6 @@ namespace Automate.Utils
 
         public static void EvaluateHumidityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentHumidity)
         {
-            // Humidity checks for sprinklers and ventilation
             if (currentHumidity < tomato.MinHumidity)
             {
                 if (!statuses.AreSprinklersActive)

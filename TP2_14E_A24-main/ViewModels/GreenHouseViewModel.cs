@@ -34,7 +34,7 @@ namespace Automate.ViewModels
         private DispatcherTimer _timer;
         private List<string> _advices;
         private ICropConditions TomatoConditions = new TomatoConditions();
-        private SystemStatus systemStatus;
+        public SystemStatus systemStatus;
         public ICommand ToggleWindowCommand => new RelayCommand(() => ToggleStatus("Window"));
         public ICommand ToggleFanCommand => new RelayCommand(() => ToggleStatus("Fan"));
         public ICommand ToggleIrrigationCommand => new RelayCommand(() => ToggleStatus("Irrigation"));
@@ -46,8 +46,6 @@ namespace Automate.ViewModels
 
         public GreenHouseViewModel()
         {
-            
-            // _conditions = new List<GreenhouseCondition>(); /*LoadConditionsFromCsv();*/
             _conditions = LoadConditionsFromCsv();
 
             _initialCondition = new GreenhouseCondition();
@@ -253,7 +251,7 @@ namespace Automate.ViewModels
                             "Fin de la simulation", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void UpdateCurrentConditions()
+        public void UpdateCurrentConditions()
         {
             if (_conditions == null || _conditions.Count == 0) return;
 
@@ -270,7 +268,7 @@ namespace Automate.ViewModels
             Luminosity = $"{_currentCondition.Luminosity} LUX";
         }
 
-        private void UpdateAdvices()
+        public void UpdateAdvices()
         {
             Advices = AdviceUtils.EvaluateConditions(TomatoConditions, systemStatus, _currentCondition);
         }
