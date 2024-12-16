@@ -15,7 +15,6 @@ namespace AutomateTests.Utils
         private DateTime dayTime = new DateTime(2024, 11, 26, 10, 0, 0);
         private DateTime nightTime = new DateTime(2024, 11, 26, 20, 0, 0);
 
-
         [SetUp]
         public void Setup()
         {
