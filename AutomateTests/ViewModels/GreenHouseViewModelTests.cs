@@ -68,7 +68,6 @@ namespace Automate.Tests
         }
 
 
-
         [Test]
         public void Constructor_ShouldInitializeSystemStatus()
         {
