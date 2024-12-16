@@ -43,6 +43,7 @@ jobs:
       id: get_latest_tag
       shell: pwsh
       run: |
+        git fetch --tags  # Récupère tous les tags de toutes les branches
         $tags = git tag
         if (-not [string]::IsNullOrWhiteSpace($tags)) {
           $LATEST_TAG = git describe --tags --abbrev=0
