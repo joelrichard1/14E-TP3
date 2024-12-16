@@ -4,6 +4,7 @@ using Automate.ViewModels;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Automate.Tests
 {
@@ -109,6 +110,14 @@ namespace Automate.Tests
         }
 
         [Test]
+        public void Constructor_ShouldInitializeSystemStatusVentilation()
+        {
+            var viewModel = new GreenHouseViewModel();
+
+            Assert.AreEqual(false, viewModel.systemStatus.IsVentilationActive);
+        }
+
+        [Test]
         public void UpdateCurrentConditions_ShouldUpdateConditionValues()
         {
             var initialTemperature = _viewModel.Temperature;
@@ -129,7 +138,7 @@ namespace Automate.Tests
         }
 
         [Test]
-        public void ToggleFanCommand_ShouldToggleVentilationStatus()
+        public void ToggleFanCommand_ShouldToggleFanStatus()
         {
             var initialStatus = _viewModel.FanStatus;
 
@@ -138,5 +147,34 @@ namespace Automate.Tests
             Assert.AreNotEqual(initialStatus, _viewModel.FanStatus);
         }
 
+        [Test]
+        public void ToggleIrrigationCommand_ShouldToggleIrrigationStatus()
+        {
+            var initialStatus = _viewModel.IrrigationStatus;
+
+            _viewModel.ToggleIrrigationCommand.Execute(null);
+
+            Assert.AreNotEqual(initialStatus, _viewModel.IrrigationStatus);
+        }
+
+        [Test]
+        public void ToggleHeatingCommand_ShouldToggleHeatingStatus()
+        {
+            var initialStatus = _viewModel.HeatingStatus;
+
+            _viewModel.ToggleHeatingCommand.Execute(null);
+
+            Assert.AreNotEqual(initialStatus, _viewModel.HeatingStatus);
+        }
+
+        [Test]
+        public void ToggleLightsCommand_ShouldToggleLightsStatus()
+        {
+            var initialStatus = _viewModel.LightsStatus;
+
+            _viewModel.ToggleLightsCommand.Execute(null);
+
+            Assert.AreNotEqual(initialStatus, _viewModel.LightsStatus);
+        }
     }
 }
