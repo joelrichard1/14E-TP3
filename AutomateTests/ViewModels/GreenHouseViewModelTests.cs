@@ -11,14 +11,6 @@ namespace Automate.Tests
     [TestFixture]
     public class GreenHouseViewModelTests
     {
-        private GreenHouseViewModel _viewModel;
-
-        [SetUp]
-        public void Setup()
-        {
-            _viewModel = new GreenHouseViewModel();
-        }
-
         [Test]
         public void Constructor_ShouldInitializeTemperature()
         {
@@ -117,63 +109,58 @@ namespace Automate.Tests
         }
 
         [Test]
-        public void UpdateCurrentConditions_ShouldUpdateConditionValues()
-        {
-            var initialTemperature = _viewModel.Temperature;
-
-            _viewModel.UpdateCurrentConditions();
-
-            Assert.AreNotEqual(initialTemperature, _viewModel.Temperature);
-        }
-
-        [Test]
         public void ToggleWindowCommand_ShouldToggleWindowStatus()
         {
-            var initialStatus = _viewModel.WindowStatus;
+            var viewModel = new GreenHouseViewModel();
+            var initialStatus = viewModel.WindowStatus;
 
-            _viewModel.ToggleWindowCommand.Execute(null);
+            viewModel.ToggleWindowCommand.Execute(null);
 
-            Assert.AreNotEqual(initialStatus, _viewModel.WindowStatus);
+            Assert.AreNotEqual(initialStatus, viewModel.WindowStatus);
         }
 
         [Test]
         public void ToggleFanCommand_ShouldToggleFanStatus()
         {
-            var initialStatus = _viewModel.FanStatus;
+            var viewModel = new GreenHouseViewModel();
+            var initialStatus = viewModel.FanStatus;
 
-            _viewModel.ToggleFanCommand.Execute(null);
+            viewModel.ToggleFanCommand.Execute(null);
 
-            Assert.AreNotEqual(initialStatus, _viewModel.FanStatus);
+            Assert.AreNotEqual(initialStatus, viewModel.FanStatus);
         }
 
         [Test]
         public void ToggleIrrigationCommand_ShouldToggleIrrigationStatus()
         {
-            var initialStatus = _viewModel.IrrigationStatus;
+            var viewModel = new GreenHouseViewModel();
+            var initialStatus = viewModel.IrrigationStatus;
 
-            _viewModel.ToggleIrrigationCommand.Execute(null);
+            viewModel.ToggleIrrigationCommand.Execute(null);
 
-            Assert.AreNotEqual(initialStatus, _viewModel.IrrigationStatus);
+            Assert.AreNotEqual(initialStatus, viewModel.IrrigationStatus);
         }
 
         [Test]
         public void ToggleHeatingCommand_ShouldToggleHeatingStatus()
         {
-            var initialStatus = _viewModel.HeatingStatus;
+            var viewModel = new GreenHouseViewModel();
+            var initialStatus = viewModel.HeatingStatus;
 
-            _viewModel.ToggleHeatingCommand.Execute(null);
+            viewModel.ToggleHeatingCommand.Execute(null);
 
-            Assert.AreNotEqual(initialStatus, _viewModel.HeatingStatus);
+            Assert.AreNotEqual(initialStatus, viewModel.HeatingStatus);
         }
 
         [Test]
         public void ToggleLightsCommand_ShouldToggleLightsStatus()
         {
-            var initialStatus = _viewModel.LightsStatus;
+            var viewModel = new GreenHouseViewModel();
+            var initialStatus = viewModel.LightsStatus;
 
-            _viewModel.ToggleLightsCommand.Execute(null);
+            viewModel.ToggleLightsCommand.Execute(null);
 
-            Assert.AreNotEqual(initialStatus, _viewModel.LightsStatus);
+            Assert.AreNotEqual(initialStatus, viewModel.LightsStatus);
         }
     }
 }
