@@ -61,7 +61,7 @@ namespace Automate.Utils
 
         public static void EvaluateLuminosityConditions(List<string> advices, ICropConditions tomato, SystemStatus statuses, int currentLux, DateTime currentDatetime)
         {
-             bool isDay = IsDay(currentDatetime);
+            bool isDay = IsDay(currentDatetime);
             if (isDay)
             {
                 if (statuses.AreLightsActive)

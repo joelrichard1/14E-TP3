@@ -202,7 +202,6 @@ namespace Automate.ViewModels
             UpdateAdvices();
         }
 
-
         private void ToggleReading()
         {
             if (isReading)
