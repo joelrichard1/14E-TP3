@@ -59,7 +59,6 @@ namespace Automate.Tests
             Assert.AreEqual(1, viewModel.Advices.Count);
         }
 
-
         [Test]
         public void Constructor_ShouldInitializeSystemStatus()
         {
