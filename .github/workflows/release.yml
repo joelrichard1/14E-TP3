@@ -71,14 +71,13 @@ jobs:
     - name: Check if tag exists
       id: check_tag_exists
       run: |
-        git fetch --tags
-        if git tag -l "${{ env.NEW_TAG }}" > /dev/null
-        then
+        git fetch --tags  # Récupère tous les tags de toutes les branches
+        if (git tag -l "${{ env.NEW_TAG }}" | Select-String "${{ env.NEW_TAG }}") {
           echo "Tag ${{ env.NEW_TAG }} already exists. Incrementing version."
-          exit 1
-        fi
+          exit 1  # Sortie prématurée si le tag existe déjà, ce qui entraîne l'augmentation du versionnage
+        }
         echo "Tag ${{ env.NEW_TAG }} does not exist, proceeding with release creation."
-
+      
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
