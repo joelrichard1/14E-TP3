@@ -152,6 +152,7 @@ namespace Automate.Tests
             Assert.AreNotEqual(initialStatus, viewModel.HeatingStatus);
         }
 
+
         [Test]
         public void ToggleLightsCommand_ShouldToggleLightsStatus()
         {
