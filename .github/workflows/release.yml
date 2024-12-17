@@ -69,6 +69,16 @@ jobs:
         }
         echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
         Write-Host "New version: $NEW_TAG"
+    
+    - name: Check if Release Exists
+      id: check_release
+      run: |
+        $TAG_EXISTS = git tag -l "TP3-V$NEXT_NUMBER"
+        if ($TAG_EXISTS) {
+          $NEXT_NUMBER = $NEXT_NUMBER + 1
+          echo "Incremented version number to $NEXT_NUMBER"
+        }
+        echo "NEW_TAG=TP3-V$NEXT_NUMBER" >> $env:GITHUB_ENV
 
     - name: Create Release
       id: create_release
