@@ -7,8 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual triggering
-
+  workflow_dispatch:
 jobs:
   build:
     runs-on: windows-latest
@@ -48,7 +47,7 @@ jobs:
         if ($tags.Count -eq 0) {
           $LATEST_TAG = "TP3-V0"
         } else {
-          $LATEST_TAG = $tags | Sort-Object { [System.Version]::Parse($_ -replace 'TP3-V', '') } | Select-Object -Last 1
+          $LATEST_TAG = $tags | Sort-Object { [int]($_ -replace 'TP3-V', '') } | Select-Object -Last 1
         }
         echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
         Write-Host "Dernière tag: $LATEST_TAG"
@@ -87,7 +86,7 @@ jobs:
         asset_content_type: application/zip
 
   failure-handler:
-    if: failure()  # Execute only if last job failed
+    if: failure()
     needs: build
     runs-on: ubuntu-latest
     steps:
