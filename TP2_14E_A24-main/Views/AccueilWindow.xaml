@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Automate.Views" xmlns:viewmodels="clr-namespace:Automate.ViewModels" xmlns:utils="clr-namespace:Automate.Utils"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=viewmodels:AccueilViewModel}"
-        Title="AccueilWindow" Height="450" Width="800">
+        Title="AccueilWindow" Height="472" Width="800">
 
     <Window.Resources>
         <utils:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
