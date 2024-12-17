@@ -1,4 +1,4 @@
-[![NUnit Tests](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml)
+[![NUnit Tests](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml/badge.svg?event=pull_request)](https://github.com/joelrichard1/14E-TP3/actions/workflows/tests.yml)
 
 # TP3_Conception
 # Nom des membres d'équipe:
