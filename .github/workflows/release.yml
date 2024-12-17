@@ -39,60 +39,42 @@ jobs:
     - name: Zip publish directory
       run: Compress-Archive -Path ./publish/* -DestinationPath ./publish/TP3-Automate.zip
 
-    - name: Get latest tag
+    - name: Get all tags
       id: get_latest_tag
       shell: pwsh
       run: |
         git fetch --tags
-         $tags = git tag -l "TP3-V*"  # Récupère uniquement les tags TP3-V*
-         if ($tags.Count -eq 0) {
-           $LATEST_TAG = "TP3-V0"  # Si aucun tag trouvé, on commence à TP3-V0
+        $tags = git tag -l "TP3-V*"
+        if ($tags.Count -eq 0) {
+          $LATEST_TAG = "TP3-V0"
         } else {
-          # Trie les tags par numéro de version et récupère le dernier
-           $LATEST_TAG = $tags | Sort-Object { [int]($_ -replace 'TP3-V', '') } | Select-Object -Last 1
-         }
-         echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
-         Write-Host "Dernière tag: $LATEST_TAG"
+          $LATEST_TAG = $tags | Sort-Object { [System.Version]::Parse($_ -replace 'TP3-V', '') } | Select-Object -Last 1
+        }
+        echo "LATEST_TAG=$LATEST_TAG" >> $env:GITHUB_ENV
+        Write-Host "Dernière tag: $LATEST_TAG"
 
     - name: Determine next version
       id: determine_version
       shell: pwsh
-       run: |
-        $LATEST_TAG = $env:LATEST_TAG
-        if ($LATEST_TAG -eq "TP3-V0") {
-          $NEW_TAG = "TP3-V1"
-        } else {
-           $LATEST_NUMBER = $LATEST_TAG -replace 'TP3-V', ''
-           $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
-           $NEW_TAG = "TP3-V$NEXT_NUMBER"
-         }
+      run: |
+        $LATEST_NUMBER = $env:LATEST_TAG -replace 'TP3-V', ''
+        $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
+        $NEW_TAG = "TP3-V$NEXT_NUMBER"
         echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
         Write-Host "New version: $NEW_TAG"
 
-      - name: Check if tag exists
-        id: check_tag_exists
-        shell: pwsh
-        run: |
-          $NEXT_NUMBER = $env.NEW_TAG -replace 'TP3-V', ''
-          $TAG_EXISTS = git tag -l "TP3-V$($NEXT_NUMBER)"
-          if ($TAG_EXISTS) {
-            $NEXT_NUMBER = $NEXT_NUMBER + 1
-            echo "Incremented version number to $NEXT_NUMBER"
-          }
-          echo "NEW_TAG=TP3-V$NEXT_NUMBER" >> $env:GITHUB_ENV
-          Write-Host "Final tag: TP3-V$NEXT_NUMBER"
-
-   - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ env.NEW_TAG }}
-          release_name: Release ${{ env.NEW_TAG }}
-          body: Release notes for ${{ env.NEW_TAG }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.NEW_TAG }}
+        release_name: Release ${{ env.NEW_TAG }}
+        body: |
+          Release notes for ${{ env.NEW_TAG }}
+        draft: false
+        prerelease: false
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -105,32 +87,32 @@ jobs:
         asset_content_type: application/zip
 
   failure-handler:
-      if: failure() # Execute only if last job failed
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-      - name: Create GitHub Issue
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const title = "🚨 Release échoué";
-            const body = `Échec de build pour la release dans le repo **${context.repo.owner}/${context.repo.repo}**.
-            
-            **Branch:** \`${context.ref}\`
-            **Commit:** \`${context.sha}\`
-  
-            [🔗 Cliquez ici pour accéder les logs de GitHub Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})  
-  
-            Regardez les logs pour trouver et corriger le problème.`;
-  
-            const labels = ["build", "error"];
-            
-            const issue = await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title,
-              body,
-              labels
-            });
-            console.log(`Issue crée: ${issue.data.html_url}`);
+    if: failure()  # Execute only if last job failed
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create GitHub Issue
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const title = "🚨 Release échoué";
+          const body = `Échec de build pour la release dans le repo **${context.repo.owner}/${context.repo.repo}**.
+          
+          **Branch:** \`${context.ref}\`
+          **Commit:** \`${context.sha}\`
+          
+          [🔗 Cliquez ici pour accéder les logs de GitHub Actions](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})  
+          
+          Regardez les logs pour trouver et corriger le problème.`;
+          
+          const labels = ["build", "error"];
+          
+          const issue = await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title,
+            body,
+            labels
+          });
+          console.log(`Issue crée: ${issue.data.html_url}`);
