@@ -19,6 +19,7 @@ namespace Automate.Tests
             Assert.AreEqual("20 °C", viewModel.Temperature);
         }
 
+
         [Test]
         public void Constructor_ShouldInitializeHumidity()
         {
