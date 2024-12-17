@@ -25,7 +25,6 @@ namespace Automate.Models
         [BsonElement("Date")]
         public DateTime? Date { get; set; }
 
-
         internal static Tache CreateInstance(string type, string description, string alert, DateTime dateTime)
         {
             return type switch
