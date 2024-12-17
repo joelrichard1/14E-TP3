@@ -21,6 +21,4 @@ namespace Automate.Models
         [Name("Luminosité (lux)")]
         public int Luminosity { get; set; }
     }
-
-
 }
