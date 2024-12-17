@@ -69,22 +69,19 @@ jobs:
         }
         echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
         Write-Host "New version: $NEW_TAG"
-    
-    - name: Check if Release Exists
-      id: check_release
+
+    - name: Check if Tag Exists
+      id: check_tag_exists
       shell: pwsh
       run: |
-        # Vérifier l'existence du tag avant d'incrémenter
-        $TAG_EXISTS = git tag -l $env:NEW_TAG
+        git fetch --tags
+        $TAG_EXISTS = git tag -l "TP3-V$($NEXT_NUMBER)"
         if ($TAG_EXISTS) {
-          $LATEST_NUMBER = $env:NEW_TAG -replace 'TP3-V', ''
-          $NEXT_NUMBER = [int]$LATEST_NUMBER + 1
-          $NEW_TAG = "TP3-V$NEXT_NUMBER"
-          echo "Tag existe déjà, version incrémentée à $NEW_TAG"
+          $NEXT_NUMBER = $NEXT_NUMBER + 1
+          echo "Incremented version number to $NEXT_NUMBER"
         }
-        echo "NEW_TAG=$NEW_TAG" >> $env:GITHUB_ENV
-        Write-Host "Final version: $NEW_TAG"
-
+        echo "NEW_TAG=TP3-V$NEXT_NUMBER" >> $env:GITHUB_ENV
+        Write-Host "Final tag: TP3-V$NEXT_NUMBER"
 
     - name: Create Release
       id: create_release
