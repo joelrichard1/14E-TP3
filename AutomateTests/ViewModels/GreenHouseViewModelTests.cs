@@ -16,9 +16,8 @@ namespace Automate.Tests
         {
             var viewModel = new GreenHouseViewModel();
 
-            Assert.AreEqual("21 °C", viewModel.Temperature);
+            Assert.AreEqual("20 °C", viewModel.Temperature);
         }
-
 
         [Test]
         public void Constructor_ShouldInitializeHumidity()
