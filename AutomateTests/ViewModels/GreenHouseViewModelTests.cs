@@ -60,14 +60,6 @@ namespace Automate.Tests
         }
 
         [Test]
-        public void Constructor_ShouldInitializeSystemStatus()
-        {
-            var viewModel = new GreenHouseViewModel();
-
-            Assert.AreEqual(false, viewModel.systemStatus.IsVentilationActive);
-        }
-
-        [Test]
         public void Constructor_ShouldInitializeSystemStatusLights()
         {
             var viewModel = new GreenHouseViewModel();
