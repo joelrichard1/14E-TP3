@@ -15,8 +15,8 @@ namespace Automate.Utils
         public const string CloseWindows = "Fermer les fenêtres";
         public const string TurnSprinklersOn = "Allumer les arroseurs";
         public const string TurnSprinklersOff = "Éteindre les arroseurs";
-        public const string TurnVentilationOn = "Allumer la ventilation";
-        public const string TurnVentilationOff = "Éteindre la ventilation";
+        public const string TurnVentilationOn = "Allumer les ventilateurs";
+        public const string TurnVentilationOff = "Éteindre les ventilateurs";
 
         public static List<string> EvaluateConditions(ICropConditions tomato, SystemStatus statuses, GreenhouseCondition condition)
         {
